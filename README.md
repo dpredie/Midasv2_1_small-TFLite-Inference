@@ -1,3 +1,6 @@
+### **(Colab for video files!)** 
+* [Google Colaboratory notebook](./Boostmonoculardepth.ipynb) is now available.  [June 2021]   [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dpredie/Midasv2_1_small-TFLite-Inference/blob/main/Midasv2_1_small_TFLite_Inference.ipynb)
+
 # Midas v2.1 small TFLite Inference
  Python scripts to perform monocular depth estimation using Python with the Midas v2.1 small Tensorflow Lite model. Tested on Windows 10, Tensorflow 2.4.0 (Python 3.8).
 
