@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFo
 parser.add_argument('--output_file', type=str, required=True, help='copy path from output directory')
 parser.add_argument('--input_file', type=str, required=True, help='copy path from input file')
 parser.add_argument('--fps', type=int, required=True, help='fps value')
-parser.add_argument('--out_opt', type=int, help='1 = output depth; 2= output RGB+depth;')
+parser.add_argument('--out_opt', type=int, help='1 = output depth; 2= output RGB+depth; 3=normals')
 
 
 
@@ -42,7 +42,9 @@ elif option_.out_opt == 1:
 elif option_.out_opt ==2:
   opt = option_.out_opt
   tile=2
-
+elif option_.out_opt ==3:
+  opt = option_.out_opt
+  tile=1
 
 print('Option: '+str(opt))
 
@@ -70,6 +72,7 @@ while cap.isOpened():
     # Estimate depth
     colorDepth = depthEstimator.estimateDepth(img)
 
+    colorNormal = NormalDepthCalc.normalFromDepth(colorDepth)
     # Add the depth image over the color image:
     #combinedImg = cv2.addWeighted(img,0.7,colorDepth,0.6,0)
 
@@ -77,11 +80,14 @@ while cap.isOpened():
     
     if opt==0:
       img_out = img
-    else:
+    elif opt<3:
       if tile==2:
         img_out = np.hstack((img, colorDepth))
       elif tile==1: 
         img_out = colorDepth
+    else:
+        img_out = colorNormal
+
 
     #print(img_out)
     #cv2.imshow("Depth Image", img_out)
