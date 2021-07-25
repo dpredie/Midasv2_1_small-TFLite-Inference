@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from MidasDepthEstimation.midasDepthEstimator import midasDepthEstimator
+from NormalsFromDepth.NormalDepthCalc import NormalDepthCalc
 import time
 import argparse
 
