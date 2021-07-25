@@ -7,20 +7,44 @@ import argparse
 inputfile = "/content/inputs/input.mp4"
 outputfolder= "/content/results"
 fps=24.0
+opt = 1
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 parser.add_argument('--output_file', type=str, required=True, help='copy path from output directory')
 parser.add_argument('--input_file', type=str, required=True, help='copy path from input file')
-parser.add_argument('--fps', type=int, required=True, help='fps')
+parser.add_argument('--fps', type=int, required=True, help='fps value')
+parser.add_argument('--out_opt', type=int, help='1 = output depth; 2= output RGB+depth;')
+
 
 
 # Check for required input
 option_, _ = parser.parse_known_args()
+
+#if option_.out_opt:
+#  opt = option_.out_opt
+
+
 print(option_)
 outputfile = option_.output_file
 inputfile = option_.input_file
 fps = option_.fps
+
+
+tile =1
+
+if option_.out_opt == 0:
+  opt = option_.out_opt
+  tile=1
+elif option_.out_opt == 1:
+  opt = option_.out_opt
+  tile=1
+elif option_.out_opt ==2:
+  opt = option_.out_opt
+  tile=2
+
+
+print('Option: '+str(opt))
 
 # Initialize depth estimation model
 depthEstimator = midasDepthEstimator()
@@ -29,7 +53,7 @@ depthEstimator = midasDepthEstimator()
 cap = cv2.VideoCapture(inputfile)
 
 print(cap)
-out = cv2.VideoWriter(outputfile,cv2.VideoWriter_fourcc(*'MP4V'), fps,(int(cap.get(3)*2),int(cap.get(4))))
+out = cv2.VideoWriter(outputfile,cv2.VideoWriter_fourcc(*'MP4V'), fps,(int(cap.get(3)*tile),int(cap.get(4))))
 
 if (cap.isOpened()== False):
   print("Error opening video stream or file")
@@ -47,10 +71,18 @@ while cap.isOpened():
     colorDepth = depthEstimator.estimateDepth(img)
 
     # Add the depth image over the color image:
-    combinedImg = cv2.addWeighted(img,0.7,colorDepth,0.6,0)
+    #combinedImg = cv2.addWeighted(img,0.7,colorDepth,0.6,0)
 
     # Join the input image, the estiamted depth and the combined image
-    img_out = np.hstack((img, colorDepth))
+    
+    if opt==0:
+      img_out = img
+    else:
+      if tile==2:
+        img_out = np.hstack((img, colorDepth))
+      elif tile==1: 
+        img_out = colorDepth
+
     #print(img_out)
     #cv2.imshow("Depth Image", img_out)
     out.write(img_out)
