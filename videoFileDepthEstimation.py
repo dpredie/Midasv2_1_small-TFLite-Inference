@@ -43,9 +43,9 @@ elif option_.out_opt == 1:
 elif option_.out_opt ==2:
   opt = option_.out_opt
   tile=2
-elif option_.out_opt ==3:
-  opt = option_.out_opt
-  tile=1
+#elif option_.out_opt ==3:
+#  opt = option_.out_opt
+#  tile=1
 
 print('Option: '+str(opt))
 
@@ -73,7 +73,7 @@ while cap.isOpened():
     # Estimate depth
     colorDepth = depthEstimator.estimateDepth(img)
 
-    colorNormal = NormalDepthCalc.normalFromDepth(colorDepth)
+ #   colorNormal = NormalDepthCalc.normalFromDepth(colorDepth)
     # Add the depth image over the color image:
     #combinedImg = cv2.addWeighted(img,0.7,colorDepth,0.6,0)
 
@@ -86,8 +86,8 @@ while cap.isOpened():
         img_out = np.hstack((img, colorDepth))
       elif tile==1: 
         img_out = colorDepth
-    else:
-        img_out = colorNormal
+ #   else:
+ #       img_out = colorNormal
 
 
     #print(img_out)
