@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFo
 
 parser.add_argument('--output_file', type=str, required=True, help='copy path from output directory')
 parser.add_argument('--input_file', type=str, required=True, help='copy path from input file')
-parser.add_argument('--fps', type=int, required=True, help='fps value')
+parser.add_argument('--fps', type=float, required=True, help='fps value')
 parser.add_argument('--out_opt', type=int, help='1 = output depth; 2= output RGB+depth; 3=normals')
 
 
